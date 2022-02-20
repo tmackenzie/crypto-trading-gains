@@ -1,0 +1,161 @@
+[
+    {
+      "timestamp": "2021-05-07T13:52:57.623000+00:00",
+      "epoch_seconds": 1620395577.623,
+      "trx_type": "buy",
+      "qty": 34.35800000,
+      "spot_currency": "USD",
+      "subtotal": 1057.36745000,
+      "fees": 0.91945000,
+      "exchange": "binance",
+      "quote_asset": "USD",
+      "quote_asset_amount": 1057.36745000,
+      "base_asset": "QTUM",
+      "base_asset_amount": 34.35800000,
+      "hash_key": "038dc231caef20dc22a7a8e35597061aea4e96bc847b767913cefc5dfb8ef9d243f553f5ca2f09ebe88218783034391b9ba7c2b46c006175c47d16ef082663c4",
+      "sales": [
+        
+      ],
+      "available_to_sell": 34.35800000,
+      "qty_acc": 34.35800000
+    },
+    {
+      "timestamp": "2021-06-10T09:01:42+00:00",
+      "epoch_seconds": 1623315702,
+      "trx_type": "staking rewards",
+      "qty": 0.0256274,
+      "spot_currency": "USD",
+      "subtotal": 0.248926,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.0256274,
+      "hash_key": "ea5c7f2591403e7d626a2f12c9f2e97f5798665fde2502bbd228289914259dbc750f1caae0dd39c23cfb8ab11d5e1337980804f9bf38aedee3d29d55eb3bd478",
+      "sales": [
+      ],
+      "available_to_sell": 0.0256274,
+      "qty_acc": 34.38362740
+    },
+    {
+      "timestamp": "2021-07-10T08:46:18+00:00",
+      "epoch_seconds": 1625906778,
+      "trx_type": "staking rewards",
+      "qty": 0.03205069,
+      "spot_currency": "USD",
+      "subtotal": 0.212869,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03205069,
+      "hash_key": "4a73f94ec85f09e48a952e1957d4a78baea8167a96a8a48a62b7f39c94013ff2772067bee09b535f6a07ce4331e3e7dabc6960c20019d60c64db768c3a7548ac",
+      "sales": [
+        
+      ],
+      "available_to_sell": 0.03205069,
+      "qty_acc": 34.41567809
+    },
+    {
+      "timestamp": "2021-08-10T05:46:11+00:00",
+      "epoch_seconds": 1628574371,
+      "trx_type": "staking rewards",
+      "qty": 0.03314838,
+      "spot_currency": "USD",
+      "subtotal": 0.352645,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03314838,
+      "hash_key": "bc1d5b45dfc2a486c31c81560a74d0974da4b61b2b5a9e6cf957d0d6952dee9ee26ac56b7c82071ac9a4c0a049ed8624d2af1800eb11279963ff7d06a71e0d83",
+      "sales": [
+      ],
+      "available_to_sell": 0.03314838,
+      "qty_acc": 34.44882647
+    },
+    {
+      "timestamp": "2021-09-10T02:16:48+00:00",
+      "epoch_seconds": 1631240208,
+      "trx_type": "staking rewards",
+      "qty": 0.03318016,
+      "spot_currency": "USD",
+      "subtotal": 0.42403,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03318016,
+      "hash_key": "c01717c53567c5abc3bc67eb4df6f237ad34d439d701efac267e0baed15468691c2c64d2d645b88bad7633395b2b054f3a3c094ddb0f8605c3ca1d7b6a4a163f",
+      "sales": [
+      ],
+      "available_to_sell": 0.03318016,
+      "qty_acc": 34.48200663
+    },
+    {
+      "timestamp": "2021-10-10T07:01:14+00:00",
+      "epoch_seconds": 1633849274,
+      "trx_type": "staking rewards",
+      "qty": 0.03214061,
+      "spot_currency": "USD",
+      "subtotal": 0.423081,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03214061,
+      "hash_key": "7acc4774489b28ce68cdc7077fdf1d7198e2b8b5d971d95552456a28197a36e6f72f0084090b1c69e2803f32829b1aba91b94634caf2b49a672b9ad96d0181f1",
+      "sales": [
+        
+      ],
+      "available_to_sell": 0.03214061,
+      "qty_acc": 34.51414724
+    },
+    {
+      "timestamp": "2021-11-10T04:31:13+00:00",
+      "epoch_seconds": 1636518673,
+      "trx_type": "staking rewards",
+      "qty": 0.03324336,
+      "spot_currency": "USD",
+      "subtotal": 0.541903,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03324336,
+      "hash_key": "03bd802369690f85bce37a9a1b64f30cb1c9bfe3229c6b21f0d8b7a8a5238385407b5c27591fee55d7f1a4fe7c73fdfb9e36749c840337acbd6088493aa487a0",
+      "sales": [
+      ],
+      "available_to_sell": 0.03324336,
+      "qty_acc": 34.54739060
+    },
+    {
+      "timestamp": "2021-12-01T15:14:53.966000+00:00",
+      "epoch_seconds": 1638371693.966,
+      "trx_type": "sell",
+      "qty": 34.51300000,
+      "spot_currency": "USD",
+      "subtotal": 554.20975400,
+      "fees": "0.55400000",
+      "exchange": "binance",
+      "quote_asset": "USD",
+      "quote_asset_amount": 554.20975400,
+      "base_asset": "QTUM",
+      "base_asset_amount": 34.51300000,
+      "hash_key": "13fd59ace1338d2e3cdaf726fe73aed71b8670a8c6737c0692f152d6b4ffa9a8b1516a6a777f8e2d1f9880ab307f85c7d73ea954c974c55c017eca379102b52b",
+      "qty_reconciled": 0,
+      "buys": [
+      ],
+      "qty_acc": 0.03439060
+    },
+    {
+      "timestamp": "2021-12-10T04:31:09+00:00",
+      "epoch_seconds": 1639110669,
+      "trx_type": "staking rewards",
+      "qty": 0.03220153,
+      "spot_currency": "USD",
+      "subtotal": 0.304539,
+      "fees": "",
+      "exchange": "binance",
+      "base_asset": "QTUM",
+      "base_asset_amount": 0.03220153,
+      "hash_key": "da16bdd4febd0dc5fbbf90303b62aaee6686d8ec28ede53b9f4b56a58bd7b4d5ea8c3f5a1b3882f43223746767be72b6f63c482964ceacb21d96e18e827095c3",
+      "sales": [],
+      "available_to_sell": 0.03220153,
+      "qty_acc": 0.06659213
+    }
+  ]
