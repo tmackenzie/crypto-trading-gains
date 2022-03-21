@@ -42,6 +42,8 @@ def gains(sell_index, trxs):
     for i in range(0, sell_index+1):
 
         if sale["qty_reconciled"] >= sale["qty"]:
+            sale["profit"] = reduce(lambda acc, buy: acc + buy["profit"], sale["buys"], 0)
+            sale["cost_basis"] = reduce(lambda acc, buy: acc + buy["cost"], sale["buys"], 0)
             break
 
         if is_buy(trxs[i]):
@@ -56,9 +58,10 @@ def gains(sell_index, trxs):
             sale_entry = {"ref_hash_key": sale["hash_key"]}
             trxs[i]["sales"].append(sale_entry)
 
-            
             buy_price_per_coin = trxs[i]["subtotal"] / trxs[i]["base_asset_amount"]
-            sale_price_per_coin = sale["subtotal"] / sale["quote_asset_amount"]
+
+            # sell base, receive quote
+            sale_price_per_coin = sale["subtotal"] / sale["base_asset_amount"]
             cost = qty_taken * buy_price_per_coin
             profit = (qty_taken * sale_price_per_coin) - cost
 
@@ -106,7 +109,9 @@ def earnings(trxs, start_date, end_date):
     fees = 0
 
     sells = []
-    for key,value in trxs.items():
+    for key, value in trxs.items():
+        # value is list of transactions.
+
         for i in range(0, len(value)):
             in_between = date_is_between(start_epoch, end_epoch, value[i]["epoch_seconds"])
 
@@ -115,6 +120,8 @@ def earnings(trxs, start_date, end_date):
                 sells.append(value[i])
 
                 earnings = sale_earnings(value[i]["buys"])
+                value[i].update(earnings)
+
                 short_term_earnings += earnings["short_term"]
                 long_term_earnings += earnings["long_term"]
 
@@ -140,5 +147,5 @@ def sale_earnings(buys):
         elif buy["capital_gains_category"] == "long":
             long_term_earnings += buy["profit"]
     
-    return {"short_term":  short_term_earnings,
+    return {"short_term": short_term_earnings,
             "long_term": long_term_earnings}
