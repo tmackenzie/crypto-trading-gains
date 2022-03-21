@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import Decimal, getcontext
 from crypto import gains
 import json
 import os
@@ -30,6 +30,9 @@ class TestGains(unittest.TestCase):
         self.assertEqual(actual[1]["available_to_sell"], Decimal(0.0111).quantize(Decimal('.0001')))
         self.assertEqual(actual[0]["available_to_sell"], Decimal(0))
 
+        self.assertEqual(actual[3]["profit"], Decimal(623.663599).quantize(Decimal('.000001')))
+        self.assertEqual(actual[3]["cost_basis"], Decimal(363.026401).quantize(Decimal('.000001')))
+
 
     def test_qtum_gains(self):
         qtum_file_name = os.path.join(os.path.dirname(__file__), "files/qtum.json")
@@ -42,6 +45,12 @@ class TestGains(unittest.TestCase):
         actual = gains.gains(7, qtum_trxs)
 
         self.assertEqual(actual[7]["qty_reconciled"], Decimal('34.513').quantize(Decimal('0.001')))
+
+        self.assertEqual(actual[7]["profit"].quantize(Decimal('.000001')),
+                         Decimal(-504.804145).quantize(Decimal('.000001')))
+
+        self.assertEqual(actual[7]["cost_basis"].quantize(Decimal('.000001')),
+                         Decimal(1059.013899374783801551992946).quantize(Decimal('.000001')))
 
 
 if __name__ == '__main__':

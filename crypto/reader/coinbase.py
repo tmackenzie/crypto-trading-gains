@@ -120,6 +120,7 @@ def convert(coinbase_trx):
     return {asset: (entry), reference_entry["base_asset"]: reference_entry}
 
 def sell(coinbase_trx):
+    # sell base, receive quote
 
     asset_candidate = coinbase_trx["asset"]
     asset = util.CURRENCY.get(asset_candidate, asset_candidate)
@@ -127,10 +128,10 @@ def sell(coinbase_trx):
     timestamp = coinbase_trx["timestamp"]
     epoch_seconds = timestamp.timestamp()
 
-    trade = {"quote_asset": asset,
-             "quote_asset_amount": coinbase_trx["quantity_transacted"],
-             "base_asset": "USD",
-             "base_asset_amount": coinbase_trx["subtotal"]}
+    trade = {"base_asset": asset,
+             "base_asset_amount": coinbase_trx["quantity_transacted"],
+             "quote_asset": "USD",
+             "quote_asset_amount": coinbase_trx["subtotal"]}
 
     entry = {"timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
