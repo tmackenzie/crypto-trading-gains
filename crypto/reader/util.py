@@ -30,7 +30,7 @@ def json_serializer(obj):
     if isinstance(obj, datetime):
         return obj.isoformat()
     elif isinstance(obj, Decimal):
-        return str(obj)
+        return float(obj)
     raise TypeError ("Type %s not serializable" % type(obj))
 
 def dict_to_hash_key(entry):
