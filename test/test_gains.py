@@ -1,11 +1,9 @@
-from datetime import datetime, timezone
-from decimal import Decimal, getcontext
+from decimal import Decimal
 from crypto import gains
 import json
 import os
-import pprint
 import unittest
-
+import pprint
 
 class TestGains(unittest.TestCase):
 
@@ -33,6 +31,31 @@ class TestGains(unittest.TestCase):
         self.assertEqual(actual[3]["profit"], Decimal(623.663599).quantize(Decimal('.000001')))
         self.assertEqual(actual[3]["cost_basis"], Decimal(363.026401).quantize(Decimal('.000001')))
 
+    def test_crypto_pairs_gains(self):
+        btc_file_name = os.path.join(os.path.dirname(__file__), "files/btc.json")
+        btc_file = open(btc_file_name)
+        trxs = json.load(btc_file, parse_float=Decimal)
+        btc_file.close()
+
+        btc_trxs = trxs[0:10]
+        gains.gains(3, btc_trxs) # first time to calc sell
+
+        actual = gains.gains(9, btc_trxs)
+
+        self.assertEqual(actual[9]["qty_reconciled"].quantize(Decimal('0.000001')),
+                         Decimal(0.017906).quantize(Decimal('0.000001')))
+
+        self.assertEqual(actual[9]["buys"][0]["cost"].quantize(Decimal('0.000001')),
+                         Decimal(4.06359900).quantize(Decimal('0.000001')))
+
+        self.assertEqual(actual[9]["buys"][1]["cost"].quantize(Decimal('.000001')),
+                         Decimal(43.384549).quantize(Decimal('.000001')))
+
+        self.assertEqual(actual[9]["profit"].quantize(Decimal('.000001')),
+                         Decimal(982.401852).quantize(Decimal('.000001')))
+
+        self.assertEqual(actual[9]["cost_basis"].quantize(Decimal('.000001')), 
+                         Decimal(47.448148).quantize(Decimal('.000001')))
 
     def test_qtum_gains(self):
         qtum_file_name = os.path.join(os.path.dirname(__file__), "files/qtum.json")

@@ -4,7 +4,7 @@ import re
 from . import util
 
 # coinbase does this in notes field when crypto/crypto trades
-NON_FIAT_EXPR = re.compile("Converted (?P<quote_asset_amount>\d+.\d+) (?P<quote_asset>\w+) to (?P<base_asset_amount>\d+.\d+) (?P<base_asset>\w+)")
+NON_FIAT_EXPR = re.compile("Converted (?P<base_asset_amount>\d+.\d+) (?P<base_asset>\w+) to (?P<quote_asset_amount>\d+.\d+) (?P<quote_asset>\w+)")
 
 def row_to_dict(row):
     hdr = [{"key": "timestamp",
@@ -78,7 +78,7 @@ def trx_factory(coinbase_trx):
         return deposit
 
 def convert(coinbase_trx):
-    
+    # sell base, receive quote
     asset_candidate = coinbase_trx["asset"]
     asset = util.CURRENCY.get(asset_candidate, asset_candidate)
     trx_type = util.trx_type(coinbase_trx["transaction_type"])
@@ -106,7 +106,7 @@ def convert(coinbase_trx):
                        "epoch_seconds": epoch_seconds,
                        "trx_type": "buy",
                        "ref_hash_key": entry["hash_key"],
-                       "qty": qty,
+                       "qty": trade["quote_asset_amount"],
                        "spot_currency": coinbase_trx["spot_price_currency"],
                        "subtotal": coinbase_trx["subtotal"],
                        "total": coinbase_trx["total_inclusive_of_fees"],
@@ -117,7 +117,7 @@ def convert(coinbase_trx):
     
     reference_entry["hash_key"] = util.dict_to_hash_key(reference_entry)
 
-    return {asset: (entry), reference_entry["base_asset"]: reference_entry}
+    return {asset: (entry), reference_entry["quote_asset"]: reference_entry}
 
 def sell(coinbase_trx):
     # sell base, receive quote
