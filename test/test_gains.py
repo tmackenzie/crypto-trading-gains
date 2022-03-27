@@ -3,7 +3,6 @@ from crypto import gains
 import json
 import os
 import unittest
-import pprint
 
 class TestGains(unittest.TestCase):
 
