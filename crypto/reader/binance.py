@@ -88,7 +88,9 @@ def quick_buy(binance_trx):
              "quote_asset": binance_trx["base_asset"],
              "quote_asset_amount": binance_trx["realized_amount_for_base_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["quote_asset"],
+             "receive": trade["base_asset"],
+            "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_quote_asset"],
@@ -112,7 +114,8 @@ def staking_rewards(binance_trx):
     trade = {"base_asset": binance_trx["primary_asset"],
              "base_asset_amount": binance_trx["realized_amount_for_primary_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"receive": asset,
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_primary_asset"],
@@ -140,7 +143,9 @@ def sell_or_buy(binance_trx):
              "base_asset": binance_trx["base_asset"],
              "base_asset_amount": binance_trx["realized_amount_for_base_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"] if trx_type == "sell" else trade["quote_asset"],
+             "receive": trade["quote_asset"] if trx_type == "sell" else trade["base_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_base_asset"],
@@ -161,7 +166,8 @@ def deposit(binance_trx):
     operation = binance_trx["operation"]
     trx_type = util.trx_type(operation)
 
-    entry = {"timestamp": timestamp,
+    entry = {"receive": asset,
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "asset": asset,

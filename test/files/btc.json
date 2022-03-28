@@ -13,7 +13,9 @@
         "subtotal": 1.0,
         "timestamp": "2014-10-11T23:09:15+00:00",
         "total": 1.0,
-        "trx_type": "buy"
+        "trx_type": "buy",
+        "give": "USD",
+        "receive": "BTC"
     },
     {
         "base_asset": "BTC",
@@ -29,7 +31,9 @@
         "subtotal": 366.09,
         "timestamp": "2014-10-11T23:16:07+00:00",
         "total": 369.9,
-        "trx_type": "buy"
+        "trx_type": "buy",
+        "give": "USD",
+        "receive": "BTC"
     },
     {
         "asset": "BTC",
@@ -39,7 +43,8 @@
         "qty": 0.0111,
         "subtotal": 0.0,
         "timestamp": "2016-05-03T22:45:32+00:00",
-        "trx_type": "send"
+        "trx_type": "send",
+        "give": "BTC"
     },
     {
         "base_asset": "BTC",
@@ -55,7 +60,9 @@
         "subtotal": 986.69,
         "timestamp": "2017-01-02T20:02:21+00:00",
         "total": 971.99,
-        "trx_type": "sell"
+        "trx_type": "sell",
+        "give": "BTC",
+        "receive": "USD"
     },
     {
         "asset": "BTC",
@@ -65,7 +72,8 @@
         "qty": 0.004933,
         "subtotal": 0.0,
         "timestamp": "2017-02-03T22:33:20+00:00",
-        "trx_type": "receive"
+        "trx_type": "receive",
+        "receive": "BTC"
     },
     {
         "asset": "BTC",
@@ -75,7 +83,8 @@
         "qty": 0.004933,
         "subtotal": 0.0,
         "timestamp": "2017-12-14T02:12:48+00:00",
-        "trx_type": "send"
+        "trx_type": "send",
+        "give": "BTC"
     },
     {
         "base_asset": "BTC",
@@ -91,7 +100,9 @@
         "subtotal": 480.82,
         "timestamp": "2018-08-15T11:55:11+00:00",
         "total": 500.0,
-        "trx_type": "buy"
+        "trx_type": "buy",
+        "give": "USD",
+        "receive": "BTC"
     },
     {
         "asset": "BTC",
@@ -101,7 +112,8 @@
         "qty": 0.07543206,
         "subtotal": 0.0,
         "timestamp": "2018-08-15T11:58:58+00:00",
-        "trx_type": "send"
+        "trx_type": "send",
+        "give": "BTC"
     },
     {
         "asset": "BTC",
@@ -111,7 +123,8 @@
         "qty": 0.01790626,
         "subtotal": 0.0,
         "timestamp": "2019-10-30T12:15:07+00:00",
-        "trx_type": "receive"
+        "trx_type": "receive",
+        "receive": "BTC"
     },
     {
         "base_asset": "BTC",
@@ -127,6 +140,8 @@
         "subtotal": 1029.85,
         "timestamp": "2021-03-20T21:58:53+00:00",
         "total": 1051.32,
-        "trx_type": "sell"
+        "trx_type": "sell",
+        "give": "BTC",
+        "receive": "BAT"
     }
 ]

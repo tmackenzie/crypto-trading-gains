@@ -85,7 +85,9 @@ def convert(coinbase_trx):
     trade["base_asset_amount"] = Decimal(trade["base_asset_amount"])
     trade["quote_asset_amount"] = Decimal(trade["quote_asset_amount"])
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"],
+             "receive": trade["quote_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": coinbase_trx["quantity_transacted"],
@@ -128,7 +130,9 @@ def sell(coinbase_trx):
              "quote_asset": "USD",
              "quote_asset_amount": coinbase_trx["subtotal"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"],
+             "receive": trade["quote_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": coinbase_trx["quantity_transacted"],
@@ -156,7 +160,9 @@ def buy(coinbase_trx):
              "base_asset": asset,
              "base_asset_amount": coinbase_trx["quantity_transacted"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["quote_asset"],
+             "receive": trade["base_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": qty,
@@ -185,7 +191,12 @@ def deposit(coinbase_trx):
              "qty": coinbase_trx["quantity_transacted"],
              "subtotal": coinbase_trx["subtotal"],
              "exchange": "coinbase"} 
-                    
+
+    if trx_type == "send":
+        entry["give"] = asset
+    elif trx_type == "receive":
+        entry["receive"] = asset
+        
     entry["hash_key"] = util.dict_to_hash_key(entry)
 
     return entry

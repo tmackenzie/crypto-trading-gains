@@ -12,7 +12,7 @@ class TestBinanceReader(unittest.TestCase):
         
         self.assertEqual(38, len(trxs["ledger"]))
 
-        sells, buys, stakings, deposits = 0, 0, 0, 0
+        sells, buys, stakings, deposits, withdrawl = 0, 0, 0, 0, 0
         # verify interface for each transaction type
         for trx in trxs["ledger"]:
             if trx["trx_type"] == "sell":
@@ -27,6 +27,9 @@ class TestBinanceReader(unittest.TestCase):
             elif trx["trx_type"] in {"send", "receive"}:
                 self.assert_deposit(trx)
                 deposits = deposits + 1
+            elif trx["trx_type"] == "send":
+                self.assert_withdrawl(trx)
+                withdrawl = withdrawl + 1
             else:
                 self.fail("unknown transaction type {}".format(trx["trx_type"]))
 
@@ -34,18 +37,21 @@ class TestBinanceReader(unittest.TestCase):
         self.assertEqual(16, buys, "number of buys are incorrect")
         self.assertEqual(7, stakings, "number of stakings are incorrect")
         self.assertEqual(14, deposits, "number of deposits are incorrect")
+        self.assertEqual(0, withdrawl, "number of withdrawls are incorrect")
 
     def assert_buy(self, buy):
         buy_keys = {"quote_asset", "quote_asset_amount", "base_asset", "base_asset_amount",
                     "timestamp", "epoch_seconds", "trx_type", "qty", "spot_currency",
-                    "subtotal", "total", "fees", "exchange", "hash_key"}
+                    "subtotal", "total", "fees", "exchange", "hash_key",
+                    "give", "receive"}
 
         self.assertTrue(buy.keys() == buy_keys, "failed buy interface check: {}".format(buy.keys()))
 
     def assert_sell(self, sell):
         sell_keys = {"quote_asset", "quote_asset_amount", "base_asset", "base_asset_amount",
                      "timestamp", "epoch_seconds", "trx_type", "qty", "spot_currency",
-                     "subtotal", "total", "fees", "exchange", "hash_key"}
+                     "subtotal", "total", "fees", "exchange", "hash_key",
+                     "give", "receive"}
 
         self.assertTrue(sell.keys() == sell_keys, "failed sell interface check: {}".format(sell.keys()))
 
@@ -53,12 +59,18 @@ class TestBinanceReader(unittest.TestCase):
     def assert_staking(self, staking):
         sell_keys = {"base_asset", "base_asset_amount",
                      "timestamp", "epoch_seconds", "trx_type", "qty", "spot_currency",
-                     "subtotal", "total", "fees", "exchange", "hash_key"}
+                     "subtotal", "total", "fees", "exchange", "hash_key", "receive"}
 
         self.assertTrue(staking.keys() == sell_keys, "failed staking interface check: {}".format(staking.keys()))
 
     def assert_deposit(self, deposit):
         deposit_keys = {"timestamp", "epoch_seconds", "trx_type", "asset", 
-                        "qty", "subtotal", "exchange", "hash_key"}
+                        "qty", "subtotal", "exchange", "hash_key", "receive"}
 
         self.assertTrue(deposit.keys() == deposit_keys, "failed deposit interface check: {}".format(deposit.keys()))
+
+    def assert_withdrawl(self, deposit):
+        deposit_keys = {"timestamp", "epoch_seconds", "trx_type", "asset", 
+                        "qty", "subtotal", "exchange", "hash_key", "give"}
+
+        self.assertTrue(deposit.keys() == deposit_keys, "failed withdrawl interface check: {}".format(deposit.keys()))
