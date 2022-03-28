@@ -44,7 +44,7 @@ def row_to_dict(row):
 
 def reader(files):
     """ read in coinbase files and return data as ledger """
-    ledger = {}
+    ledger = []
     deposits = {}
     for file in files:
         with open(file, 'r') as csv_file:
@@ -55,13 +55,8 @@ def reader(files):
                 coinbase_trx = row_to_dict(row)
 
                 trx_fn = trx_factory(coinbase_trx)
-                trxs = trx_fn(coinbase_trx)
-
-                for asset, trx in trxs.items():
-                    if asset in ledger:
-                        ledger[asset].append(trx)
-                    else:
-                        ledger[asset] = [trx]
+                trx = trx_fn(coinbase_trx)
+                ledger.append(trx)
 
     return {"deposits": deposits,
             "ledger": ledger}
@@ -90,7 +85,9 @@ def convert(coinbase_trx):
     trade["base_asset_amount"] = Decimal(trade["base_asset_amount"])
     trade["quote_asset_amount"] = Decimal(trade["quote_asset_amount"])
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"],
+             "receive": trade["quote_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": coinbase_trx["quantity_transacted"],
@@ -106,7 +103,7 @@ def convert(coinbase_trx):
                        "epoch_seconds": epoch_seconds,
                        "trx_type": "buy",
                        "ref_hash_key": entry["hash_key"],
-                       "qty": trade["quote_asset_amount"],
+                       "qty": trade["base_asset_amount"],
                        "spot_currency": coinbase_trx["spot_price_currency"],
                        "subtotal": coinbase_trx["subtotal"],
                        "total": coinbase_trx["total_inclusive_of_fees"],
@@ -117,7 +114,7 @@ def convert(coinbase_trx):
     
     reference_entry["hash_key"] = util.dict_to_hash_key(reference_entry)
 
-    return {asset: (entry), reference_entry["quote_asset"]: reference_entry}
+    return entry
 
 def sell(coinbase_trx):
     # sell base, receive quote
@@ -133,7 +130,9 @@ def sell(coinbase_trx):
              "quote_asset": "USD",
              "quote_asset_amount": coinbase_trx["subtotal"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"],
+             "receive": trade["quote_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": coinbase_trx["quantity_transacted"],
@@ -145,7 +144,7 @@ def sell(coinbase_trx):
     
     entry["hash_key"] = util.dict_to_hash_key(entry)    
     
-    return {asset: entry}
+    return entry
 
 def buy(coinbase_trx):
     
@@ -161,7 +160,9 @@ def buy(coinbase_trx):
              "base_asset": asset,
              "base_asset_amount": coinbase_trx["quantity_transacted"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["quote_asset"],
+             "receive": trade["base_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": qty,
@@ -173,7 +174,7 @@ def buy(coinbase_trx):
 
     entry["hash_key"] = util.dict_to_hash_key(entry)
 
-    return {asset: entry}
+    return entry
 
 def deposit(coinbase_trx):
 
@@ -190,7 +191,12 @@ def deposit(coinbase_trx):
              "qty": coinbase_trx["quantity_transacted"],
              "subtotal": coinbase_trx["subtotal"],
              "exchange": "coinbase"} 
-                    
+
+    if trx_type == "send":
+        entry["give"] = asset
+    elif trx_type == "receive":
+        entry["receive"] = asset
+        
     entry["hash_key"] = util.dict_to_hash_key(entry)
 
-    return {asset: entry}
+    return entry

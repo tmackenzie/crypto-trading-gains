@@ -43,7 +43,7 @@ def row_to_dict(row):
 
 def reader(files):
 
-    ledger = {}
+    ledger = []
     deposits = {}
     for file in files:
         with open(file, 'r') as csv_file:
@@ -56,14 +56,9 @@ def reader(files):
                 binance_trx = row_to_dict(row)
 
                 trx_fn = trx_factory(binance_trx)
-                trxs = trx_fn(binance_trx)
+                trx = trx_fn(binance_trx)
+                ledger.append(trx)
                 
-                for asset, trx in trxs.items():
-                    if asset in ledger:
-                        ledger[asset].append(trx)
-                    else:
-                        ledger[asset] = [trx]
-
     
     return {"deposits": deposits,
             "ledger": ledger}
@@ -93,17 +88,21 @@ def quick_buy(binance_trx):
              "quote_asset": binance_trx["base_asset"],
              "quote_asset_amount": binance_trx["realized_amount_for_base_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["quote_asset"],
+             "receive": trade["base_asset"],
+            "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_quote_asset"],
              "spot_currency": binance_trx["quote_asset"],
              "subtotal": binance_trx["realized_amount_for_quote_asset_in_usd_value"],
              "fees": binance_trx["realized_amount_for_fee_asset_in_usd_value"],
+             "total": binance_trx["realized_amount_for_quote_asset_in_usd_value"] +
+                      binance_trx["realized_amount_for_fee_asset_in_usd_value"],
              "exchange": "binance"} | trade
 
     entry["hash_key"] = util.dict_to_hash_key(entry)
-    return {asset: entry}
+    return entry
 
 def staking_rewards(binance_trx):
     asset = binance_trx["primary_asset"]
@@ -115,17 +114,20 @@ def staking_rewards(binance_trx):
     trade = {"base_asset": binance_trx["primary_asset"],
              "base_asset_amount": binance_trx["realized_amount_for_primary_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"receive": asset,
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_primary_asset"],
              "spot_currency": "USD",
              "subtotal": binance_trx["realized_amount_for_primary_asset_in_usd_value"],
              "fees": binance_trx["realized_amount_for_fee_asset_in_usd_value"],
+             "total": binance_trx["realized_amount_for_quote_asset_in_usd_value"] +
+                      binance_trx["realized_amount_for_fee_asset_in_usd_value"],
              "exchange": "binance"} | trade
 
     entry["hash_key"] = util.dict_to_hash_key(entry)
-    return {asset: entry}
+    return entry
 
 def sell_or_buy(binance_trx):
     asset = binance_trx["base_asset"]
@@ -141,17 +143,21 @@ def sell_or_buy(binance_trx):
              "base_asset": binance_trx["base_asset"],
              "base_asset_amount": binance_trx["realized_amount_for_base_asset"]}
 
-    entry = {"timestamp": timestamp,
+    entry = {"give": trade["base_asset"] if trx_type == "sell" else trade["quote_asset"],
+             "receive": trade["quote_asset"] if trx_type == "sell" else trade["base_asset"],
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "qty": binance_trx["realized_amount_for_base_asset"],
              "spot_currency": binance_trx["quote_asset"],
              "subtotal": binance_trx["realized_amount_for_quote_asset_in_usd_value"],
              "fees": binance_trx["realized_amount_for_fee_asset_in_usd_value"],
+             "total": binance_trx["realized_amount_for_quote_asset_in_usd_value"] +
+                      binance_trx["realized_amount_for_fee_asset_in_usd_value"],
              "exchange": "binance"} | trade
 
     entry["hash_key"] = util.dict_to_hash_key(entry)
-    return {asset: entry}
+    return entry
 
 def deposit(binance_trx):
     asset = binance_trx["primary_asset"]
@@ -160,7 +166,8 @@ def deposit(binance_trx):
     operation = binance_trx["operation"]
     trx_type = util.trx_type(operation)
 
-    entry = {"timestamp": timestamp,
+    entry = {"receive": asset,
+             "timestamp": timestamp,
              "epoch_seconds": epoch_seconds,
              "trx_type": trx_type,
              "asset": asset,
@@ -170,4 +177,4 @@ def deposit(binance_trx):
         
     entry["hash_key"] = util.dict_to_hash_key(entry)
 
-    return {asset: entry}
+    return entry

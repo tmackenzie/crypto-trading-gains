@@ -2,7 +2,7 @@
 
 import argparse
 import csv
-import gains
+from gain import gain, earning, deposit
 import json
 from reader import reader
 from reader import util
@@ -26,13 +26,13 @@ def main():
     financials = reader.read(args.coinbase_files, args.binance_files)
     write_json_file(args.outfile_name, financials) # financials get modified somewhere by reference.
 
-    ledger = gains.accumulated_amounts(financials["ledger"])
+    ledger = gain.accumulated_amounts(financials["ledger"])
 
     start_date = util.to_datetime(args.input_start_date)
     end_date = util.to_datetime(args.input_end_date)
 
-    sell_trxs = gains.earnings(ledger, start_date, end_date)
-    deposits = gains.usd_deposits(ledger, start_date, end_date)
+    sell_trxs = earning.earnings(ledger, start_date, end_date)
+    deposits = deposit.usd_deposits(ledger, start_date, end_date)
     
     write_json_file(args.gains_outfile_name, sell_trxs)
     write_json_file(args.deposit_outfile_name, deposits)
